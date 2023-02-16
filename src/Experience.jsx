@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls, useTexture } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import { useMemo } from "react";
-import vertex from "./shaders/vertex.glsl";
-import fragment from "./shaders/fragment.glsl";
+import { useEffect, useMemo } from "react";
+import vertexShader from "./shaders/vertex.glsl";
+import fragmentShader from "./shaders/fragment.glsl";
 import { useFrame } from "@react-three/fiber";
 
 export default function Experience() {
@@ -11,8 +11,8 @@ export default function Experience() {
   const pointGeo = new THREE.SphereGeometry(0.02, 20, 20);
   const pointMat = new THREE.MeshBasicMaterial({ color: "red" });
   const lineMat = new THREE.ShaderMaterial({
-    vertexShader: vertex,
-    fragmentShader: fragment,
+    vertexShader,
+    fragmentShader,
     uniforms: {
       time: { value: 0 },
     },
@@ -25,7 +25,7 @@ export default function Experience() {
     },
     {
       lat: 26.8206,
-      lng: -30.8025,
+      lng: -49.0025,
     },
     {
       lat: 19.683139,
@@ -76,10 +76,18 @@ export default function Experience() {
     coordinates.forEach((item, i, arr) => {
       const pos = getCoordinates(item);
       const pos2 = i != arr.length - 1 ? getCoordinates(arr[i + 1]) : null;
-
+      //   const randDelay = Math.random() * 3;
       if (pos2) {
+        // console.log(randDelay);
         tubes.push(
-          <mesh key={i} material={lineMat}>
+          <mesh
+            key={i}
+            material={lineMat}
+            material-uniforms={{
+              time: { value: 0 },
+              lineDelay: { value: 3 }, //TODO: make this random for each one
+            }}
+          >
             <tubeGeometry args={[getCurve(pos, pos2), 20, 0.005, 8, false]} />
           </mesh>
         );
