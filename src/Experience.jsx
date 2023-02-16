@@ -7,7 +7,7 @@ import fragment from "./shaders/fragment.glsl";
 import { useFrame } from "@react-three/fiber";
 
 export default function Experience() {
-  const earth = useTexture("./earth.jpg");
+  const earth = useTexture("./assets/earth.jpg");
   const pointGeo = new THREE.SphereGeometry(0.02, 20, 20);
   const pointMat = new THREE.MeshBasicMaterial({ color: "red" });
   const lineMat = new THREE.ShaderMaterial({
